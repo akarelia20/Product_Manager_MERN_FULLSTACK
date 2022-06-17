@@ -1,9 +1,9 @@
 const express = require('express')
 // cross origion resourse sharing connets backend to fronend
 const cors = require('cors')
-require('./config/mongoose.config')
 const app = express()
 const port = 8000
+require('./config/mongoose.config')
 
 // these line of code is written to fix the req.body issue
 app.use(express.json())
