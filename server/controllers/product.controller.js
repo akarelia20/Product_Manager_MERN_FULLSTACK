@@ -6,7 +6,9 @@ const getAllProduct = (req, res) => {
       res.json(products)
     })
     .catch(err =>
-      res.json({ message: 'Something went wrong while gettingAll', error: err })
+      res
+        .status(400)
+        .json({ message: 'Something went wrong while gettingAll', error: err })
     )
 }
 
@@ -16,7 +18,9 @@ const createProduct = (req, res) => {
       res.json(newProduct)
     })
     .catch(err =>
-      res.json({ message: 'Something went wrong while creating', error: err })
+      res
+        .status(400)
+        .json({ message: 'Something went wrong while creating', error: err })
     )
 }
 
@@ -26,7 +30,9 @@ const getProductById = (req, res) => {
       res.json(getOne)
     })
     .catch(err => {
-      res.json({ message: 'Something went wrong in getOne', error: err })
+      res
+        .status(400)
+        .json({ message: 'Something went wrong in getOne', error: err })
     })
 }
 
@@ -36,7 +42,9 @@ const deleteProduct = (req, res) => {
       res.json(result)
     })
     .catch(err => {
-      res.json({ message: 'Something went wrong while deleting', error: err })
+      res
+        .status(400)
+        .json({ message: 'Something went wrong while deleting', error: err })
     })
 }
 
@@ -49,7 +57,9 @@ const updateProduct = (req, res) => {
       res.json(product)
     })
     .catch(err => {
-      res.json({ message: 'Something went wrong while updating', error: err })
+      res
+        .status(400)
+        .json({ message: 'Something went wrong while updating', error: err })
     })
 }
 
