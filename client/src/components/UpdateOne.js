@@ -1,17 +1,33 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
-const Form = props => {
-  const { products, setProducts } = props
+const UpdateOne = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
-  const [price, setPrice] = useState('')
+  const [price, setPrice] = useState(0)
   const [description, setDescription] = useState('')
   const [errors, setErrors] = useState({})
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/product/${id}`)
+      .then(res => {
+        console.log(res.data)
+        setTitle(res.data.title)
+        setPrice(res.data.price)
+        setDescription(res.data.description)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }, [])
 
   const submitHandler = e => {
     e.preventDefault()
     axios
-      .post('http://localhost:8000/api/products', {
+      .put(`http://localhost:8000/api/product/${id}`, {
         title,
         price,
         description
@@ -19,11 +35,7 @@ const Form = props => {
       .then(res => {
         console.log(res.data)
         console.log('SUCCESS')
-        setProducts([...products, res.data])
-        setTitle('')
-        setPrice('')
-        setDescription('')
-        setErrors({})
+        navigate(`/product/${id}`)
       })
       .catch(err => {
         setErrors(err.response.data.error.errors)
@@ -33,7 +45,7 @@ const Form = props => {
 
   return (
     <div className='App'>
-      <h1> Product Manager </h1>
+      <h1>Update Product </h1>
       <form onSubmit={submitHandler} className='col-xl-5 App'>
         {errors.title ? (
           <p className='text-danger'>{errors.title.message}</p>
@@ -74,7 +86,7 @@ const Form = props => {
           />
         </div>
         <button className='btn btn-primary btn-lg mt-3' type='submit'>
-          Create
+          Save
         </button>
       </form>
       <hr />
@@ -82,4 +94,4 @@ const Form = props => {
   )
 }
 
-export default Form
+export default UpdateOne
